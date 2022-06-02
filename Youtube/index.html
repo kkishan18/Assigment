@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube</title>
+    <style>
+        body{
+            background-color: black;
+        }
+        #results{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        grid-gap: 5%;
+        padding-top: 50px;
+        }
+        #navbar{
+            display: flex;
+            height: 50px;
+            width: 100%;
+            position: fixed;
+            /* border: 1px solid red; */
+            background-color: red;
+        }
+        #query{
+            height: 30px;
+            width: 22%;
+            border-radius: 10px;
+            padding-left: 100px;
+            padding-right: 200px;
+            margin: auto;
+            /* margin-left: 200px; */
+            /* margin-top: -1000px; */
+            /* padding-top: -5000%; */
+        }
+        button{
+            width: 100px;
+            height: 35px;
+            border-radius: 10px;
+            /* margin-right: 200px; */
+            margin: auto;
+        }
+        img{
+            /* position: relative; */
+            height: 50px;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <img src="https://cdn.mos.cms.futurecdn.net/8gzcr6RpGStvZFA2qRt4v6.jpg" alt="">
+    <input type="text" id="query" placeholder="Search">
+    <button onclick="search()">Search</button>
+
+    <!-- <div id="results"></div> -->
+</div>
+<div id="results"></div>
+</body>
+</html>
+
+<script>
+    // AIzaSyB9OUIgdYBn-QFkBYBz7f8lIQ0nUPBw9uA
+
+    //'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=thor&key=[YOUR_API_KEY]'
+
+    const api_key ="AIzaSyB9OUIgdYBn-QFkBYBz7f8lIQ0nUPBw9uA";
+   
+   let search = async() =>{
+
+    try{
+       let query = document.getElementById("query").value;
+       let url =`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${query}&key=${api_key}`;
+       let res = await fetch(url);
+
+       let data = await res.json();
+       append(data.items);
+
+    console.log(data);
+    }catch(err){
+        console.log(err);
+    }
+    
+   };
+
+   // Append
+
+let append =(data)=>{
+    let container = document.getElementById("results");
+
+    
+    data.forEach(({ id:{videoId}, snippet:{title, thumbnails} }) =>{
+        // console.log(videoId);
+        // console.log(title);
+
+        let div = document.createElement("div");
+        // let img = document.createElement("img");
+        // img.src = 
+
+        let iframe = document.createElement("iframe");
+        iframe.src =`https://www.youtube.com/embed/${videoId}`;
+        iframe.allow ="fullscreen";
+
+        let h3 = document.createElement("h3")
+        h3.innerText =title;
+        h3.style.color ="white";
+
+       div.append(iframe, h3);
+
+       let video = {
+           title,
+           videoId,
+       };
+
+       div.onclick = () =>{
+           playVideo(video);
+       }
+
+       container.append(div);
+        
+    });
+
+};
+
+let playVideo = (video) =>{
+
+    localStorage.setItem("video", JSON.stringify(video))
+    window.location.href = "video.html";
+
+
+}
+
+</script>
+
+<!-- <iframe width="560" height="315" 
+    src="https://www.youtube.com/embed/KUN5Uf9mObQ" // video id
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; 
+    autoplay; clipboard-write; 
+    encrypted-media; gyroscope;
+     picture-in-picture" allowfullscreen></iframe> -->
+
+     
