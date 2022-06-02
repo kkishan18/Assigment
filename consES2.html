@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+     class Nano{    //blueprint
+        constructor(b,d,m){
+            this.brand = b;
+            this.model = d;
+            this.milage =m
+        }
+    }
+ let m1 = new Nano("TATA",2013,"18kmpl");
+ console.log(m1)
+
+ class Nexa extends Nano{
+    constructor(b,d,m,t){
+           super(b,d,m);
+            this.type = t;
+           
+        }
+ }
+let m2 = new Nexa("TATA",5000,"20kmpl","EV")
+console.log(m2)
+
+class Hurrier extends Nexa{
+    constructor(b,d,m,t,s){
+           super(b,d,m,t);
+            this.speed = s;
+           
+        }
+ }
+let m3 = new Hurrier("TATA",5000,"20kmpl","EV","140km/hr")
+console.log(m3)
+
+</script>
